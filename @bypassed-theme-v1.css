@@ -1,18 +1,13 @@
-/**
- * @bypassed theme v1
- * no imports · perf-first · opaque glass
- *
- * tweak :root · comment out a ◆ section to disable it
- */
+/*######################################################################################
+                                made by @bypassed
+######################################################################################*/
 
-/* ═══════════════════════════════════
-   ◆  CONFIG
-   ═══════════════════════════════════ */
+/*──────────────────────────────────────
+    CONFIG
+──────────────────────────────────────*/
 :root {
-  /* accent — selected channel # + selected command row */
   --bp-accent: #b80000;
 
-  /* solid fills (no alpha — menus stay readable) */
   --bp-menu: #141416;
   --bp-raised: #1a1b1f;
   --bp-border: rgba(255, 255, 255, 0.12);
@@ -27,7 +22,6 @@
     transparent 58%
   );
 
-  /* settings glass polish (layered ON TOP of translucent opacity) */
   --bp-settings-shine: linear-gradient(
     180deg,
     rgba(255, 255, 255, 0.1) 0%,
@@ -39,34 +33,25 @@
     0 18px 48px rgba(0, 0, 0, 0.55),
     0 0 64px rgba(255, 255, 255, 0.06);
 
-  /* hover wash on icon buttons */
   --bp-icon-hover: rgba(255, 255, 255, 0.08);
 
-  /* shape */
   --bp-radius: 10px;
   --bp-radius-sm: 15px;
 
-  /*── DM NAV ICONS (Friends / Nitro / Shop row) ──*/
   --bp-dm-icon-pad: 0;
-  /* ↑ padding around each icon glyph */
-
   --bp-dm-icon-gap: 4px;
-  /* ↑ horizontal space between icon buttons */
-
   --bp-dm-badge-scale: 0.8;
-  /* ↑ size of notification / NEW badges on those icons (1 = full size) */
 
-  /* embeds */
-  --bp-embed-wash: 0.15;        /* accent tint strength 0–1 */
+  --bp-embed-wash: 0.15;
 
-  /* spotify — art behind controls */
-  --bp-spotify-art: 0.45;       /* album art strength */
-  --bp-spotify-veil-top: 0.25;  /* dark tint at top (clearer) */
-  --bp-spotify-veil-bot: 0.72;  /* dark tint at bottom (stronger) */
-  --bp-spotify-veil-hover: 0.15;/* overall veil when hovering (lower = more art) */
+  --bp-spotify-art: 0.45;
+  --bp-spotify-veil-top: 0.25;
+  --bp-spotify-veil-bot: 0.72;
+  --bp-spotify-veil-hover: 0.15;
+
+  --grabber-height: 0.4;
 }
 
-/* shared glass recipe (spotify / misc — settings & commands use their own blocks) */
 .bp-glass {
   background-color: var(--bp-menu) !important;
   background-image: var(--bp-glass-shine) !important;
@@ -74,15 +59,9 @@
   box-shadow: var(--bp-gloss);
 }
 
-/* ═══════════════════════════════════
-   ◆  SPOTIFY  (compact layout + album art behind controls)
-   ═══════════════════════════════════ */
-
-/*── compact layout (from Compact Spotify Player, no import) ──*/
-:root {
-  --grabber-height: 0.4;
-}
-
+/*──────────────────────────────────────
+    COMPACT SPOTIFY CONTROLS
+──────────────────────────────────────*/
 #vc-spotify-info-wrapper {
   display: flex;
   flex-direction: row;
@@ -97,6 +76,7 @@
 
 #vc-spotify-album-image {
   height: 100%;
+  border-radius: 4px !important;
 }
 
 #vc-spotify-progress-bar {
@@ -139,7 +119,6 @@
   margin-top: 2px;
 }
 
-/*── album art behind controls ──*/
 #vc-spotify-player {
   --bp-sp-top: var(--bp-spotify-veil-top);
   --bp-sp-bot: var(--bp-spotify-veil-bot);
@@ -192,10 +171,6 @@
   border-radius: 4px !important;
 }
 
-#vc-spotify-album-image {
-  border-radius: 4px !important;
-}
-
 #vc-spotify-player [class*="timelineBar"],
 .timelineBar_c78e62 {
   height: 3px !important;
@@ -231,10 +206,9 @@
   background: transparent !important;
 }
 
-/*══════════════════════════════════════
-  COMPACT DM NAV ICONS
-  Faithful rewrite of CompactButtons — no broad :has()/wrapper traps
-══════════════════════════════════════*/
+/*──────────────────────────────────────
+    COMPACT BUTTONS
+──────────────────────────────────────*/
 [data-list-id^="private-channels-uid_"] {
   scrollbar-width: none;
 }
@@ -247,7 +221,6 @@
   justify-content: space-evenly;
 }
 
-/* search, headers, real DMs stay full width */
 [data-list-id^="private-channels-uid_"] > [class*="content"] > div:not([class]):first-child,
 [data-list-id^="private-channels-uid_"] > [class*="content"] > div[role="button"],
 [data-list-id^="private-channels-uid_"] > [class*="content"] > [class*="privateChannelsHeader"],
@@ -256,13 +229,11 @@
   min-width: 0;
 }
 
-/* reset margins on nav entries */
 [data-list-id^="private-channels-uid_"] > [class*="content"] > [class*="friendsButton"],
 [data-list-id^="private-channels-uid_"] > [class*="content"] > [class*="channel"]:not([class*="dm"]) {
   margin: 0;
 }
 
-/* iconify non-DM channel rows (Friends / Nitro / Shop / Requests / Quests) */
 [data-list-id^="private-channels-uid_"] [class*="channel"]:not([class*="dm"]) {
   margin: 0 var(--bp-dm-icon-gap) !important;
 }
@@ -296,7 +267,6 @@
   display: none !important;
 }
 
-/* badges */
 [data-list-id^="private-channels-uid_"] [class*="channel"]:not([class*="dm"]) [class*="numberBadge"],
 [data-list-id^="private-channels-uid_"] [class*="friendsButton"] [class*="numberBadge"] {
   position: absolute;
@@ -326,9 +296,9 @@
   background-color: var(--badge-notification-background, #ed4245);
 }
 
-/*══════════════════════════════════════
-  UI BUTTONS (slightly tighter)
-══════════════════════════════════════*/
+/*──────────────────────────────────────
+    UI BUTTONS
+──────────────────────────────────────*/
 .button_dd4f85:not(.lookLink_dd4f85),
 .button__201d5:not(.lookLink__201d5) {
   min-height: 28px;
@@ -345,122 +315,106 @@
 /*──────────────────────────────────────
     TRANSLUCENT SETTINGS MENU
 ──────────────────────────────────────*/
-
-/* settings menu scroll shadow */
 .fixedContent__409aa:after {
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
 }
 
-/* settings menu main BG */
 .content_e9e3ed {
-    background: #00000046;
+  background: #00000046;
 }
 
 .contentHeader_e9e3ed {
-    background: transparent !important;
+  background: transparent !important;
 }
 
-/* Security Keys BG */
 .credentialItem__6c75d {
-    background: none;
+  background: none;
 }
 
 .credentialItem__6c75d:is(:first-child) {
-    border: 0px;
+  border: 0px;
 }
 
 .credentialList__6c75d {
-    background: #0c0c0c83;
-    border-radius: 8px;
-    border: 1px solid var(--border-subtle);
+  background: #0c0c0c83;
+  border-radius: 8px;
+  border: 1px solid var(--border-subtle);
 }
 
-/* krisp bg */
 .card__73069:not(.outline__73069) {
-    background: none;
+  background: none;
 }
 
-/* keybinding bgs */
 .defaultKeybindGroup__740f2 {
-    background: #2b2a2a63;
+  background: #2b2a2a63;
 }
 
-/* vencord quick actions */
 .vc-card-base {
-    background: none;
+  background: none;
 }
 
 .vc-settings-quickActions-pill {
-    background: #55555571;
+  background: #55555571;
 }
 
 .vc-settings-quickActions-pill:hover {
-    background: #7e7e7e71;
+  background: #7e7e7e71;
 }
 
-/* Plugins */
 .vc-addon-card {
-    background: none;
+  background: none;
 }
 
-/* server boosts */
 .appliedBoostContainer_ceb06a {
-    background: none;
-    border: 1px solid var(--border-subtle);
+  background: none;
+  border: 1px solid var(--border-subtle);
 }
 
 .guildContainer__5dba5 {
-    background: #3d3d3d52;
+  background: #3d3d3d52;
 }
 
 .boostContainer_ceb06a {
-    background: #141414a1;
+  background: #141414a1;
 }
 
-/* server boost faq */
 .wrapper__5b98e {
-    background: #3d3d3d52;
+  background: #3d3d3d52;
 }
 
-/* Share nitro */
 .expandedProgressBarContainerSettingsPage_a61c56 {
-    background: none;
-    backdrop-filter: none;
+  background: none;
+  backdrop-filter: none;
 }
 
-/* my account */
 .accountProfileCard__1fed1 {
-    background: #03030333;
-    border: 1px solid var(--border-subtle);
+  background: #03030333;
+  border: 1px solid var(--border-subtle);
 }
 
 .background__1fed1 {
-    background: #1818183b;
-    border: 1px solid var(--border-subtle);
+  background: #1818183b;
+  border: 1px solid var(--border-subtle);
 }
 
 .fieldList__1fed1 {
-    background: none;
+  background: none;
 }
 
-/* appearance */
 .cardPrimary__73069,
 .cardPrimary__73069.editable__73069 {
-    background: #03030356;
+  background: #03030356;
 }
 
-/* view reactions popup / settings menu */
 .container__8a031 {
-    background: #14141494;
-    backdrop-filter: blur(10px);
+  background: #14141494;
+  backdrop-filter: blur(10px);
 }
 
 /*──────────────────────────────────────
-    SETTINGS GLASS POLISH  (slight — keeps translucent opacity)
+    SETTINGS FADE
 ──────────────────────────────────────*/
-
-/* outer shell — soft glow only, no border */
 [class*="standardSidebarView"] {
   border: none !important;
   border-radius: 12px !important;
@@ -468,7 +422,6 @@
   box-shadow: var(--bp-settings-outer-glow) !important;
 }
 
-/* keep translucent opacity — only top→bottom fade */
 .content_e9e3ed {
   background-image: var(--bp-settings-shine);
   border: none;
@@ -480,7 +433,6 @@
   border: none;
 }
 
-/* translucent cards — fade only, no borders */
 .credentialList__6c75d,
 .defaultKeybindGroup__740f2,
 .guildContainer__5dba5,
@@ -501,7 +453,6 @@
   box-shadow: 0 0 12px rgba(255, 255, 255, 0.1);
 }
 
-/* sidebar items — slight grey hover */
 [class*="standardSidebarView"] [class*="item"]:hover,
 [class*="sidebarRegion"] [class*="item"]:hover {
   background-color: var(--bp-icon-hover) !important;
@@ -512,89 +463,79 @@
 /*──────────────────────────────────────
     CLEANER COMMAND MENU
 ──────────────────────────────────────*/
-
-/* main container */
 [class*="autocomplete"],
 [class*="contentWrapper"] [role="listbox"] {
-    background: rgba(20, 20, 24, 0.72) !important;
-    backdrop-filter: blur(14px) saturate(140%) !important;
-    -webkit-backdrop-filter: blur(14px) saturate(140%) !important;
+  background: rgba(20, 20, 24, 0.72) !important;
+  backdrop-filter: blur(14px) saturate(140%) !important;
+  -webkit-backdrop-filter: blur(14px) saturate(140%) !important;
 
-    border: 1px solid rgba(255, 255, 255, 0.06) !important;
-    border-radius: 12px !important;
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+  border-radius: 12px !important;
 
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45) !important;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45) !important;
 }
 
-/* options */
 [class*="autocomplete"] [role="option"],
 [class*="contentWrapper"] [role="option"] {
-    border-radius: 8px !important;
-    margin: 2px 4px !important;
-    padding: 6px 8px !important;
+  border-radius: 8px !important;
+  margin: 2px 4px !important;
+  padding: 6px 8px !important;
 
-    background: transparent !important;
-    box-shadow: none !important;
-    border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
 
-    transition: background 0.15s ease !important;
+  transition: background 0.15s ease !important;
 }
 
-/* remove hover flash */
 [class*="autocomplete"] [role="option"]:hover,
 [class*="autocomplete"] [role="option"]:hover * {
-    background: transparent !important;
-    box-shadow: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
 }
 
-/* selected */
 [class*="autocomplete"] [aria-selected="true"] {
-    background: rgba(88, 101, 242, 0.18) !important;
-    border: none !important;
-    box-shadow: none !important;
+  background: rgba(88, 101, 242, 0.18) !important;
+  border: none !important;
+  box-shadow: none !important;
 }
 
-/* title */
 [class*="autocomplete"] [class*="title"] {
-    font-size: 15px !important;
-    font-weight: 500 !important;
+  font-size: 15px !important;
+  font-weight: 500 !important;
 }
 
-/* description */
 [class*="autocomplete"] [class*="description"] {
-    font-size: 12px !important;
-    opacity: 0.65 !important;
+  font-size: 12px !important;
+  opacity: 0.65 !important;
 
-    background: transparent !important;
-    border: none !important;
-    box-shadow: none !important;
-    padding: 0 !important;
-    margin: 0 !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
 }
 
-/* kill nested wrappers */
 [class*="autocomplete"] [class*="description"] *,
 [class*="autocomplete"] [class*="content"] *,
 [class*="autocomplete"] [role="option"] div {
-    background: transparent !important;
-    border: none !important;
-    box-shadow: none !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
 }
 
-/* icons */
 [class*="autocomplete"] svg {
-    opacity: 0.9 !important;
+  opacity: 0.9 !important;
 }
 
-/* divider */
 [class*="autocomplete"] [class*="divider"] {
-    margin: 4px 0 !important;
-    opacity: 0.15 !important;
+  margin: 4px 0 !important;
+  opacity: 0.15 !important;
 }
 
-/* ═══════════════════════════════════
-   ◆  CHANNEL ACCENT  (--bp-accent)
-   ═══════════════════════════════════ */
+/*──────────────────────────────────────
+    CHANNEL HOVER / HASH COLORS
+──────────────────────────────────────*/
 #channels [class*="selected"] [class*="name"],
 #channels [class*="selected"] [class*="icon"],
 #channels [class*="modeSelected"] [class*="name"],
@@ -615,9 +556,9 @@ li[class*="selected"] svg {
   fill: var(--bp-accent) !important;
 }
 
-/* ═══════════════════════════════════
-   ◆  EMBEDS
-   ═══════════════════════════════════ */
+/*──────────────────────────────────────
+    GLOSSY EMBEDS
+──────────────────────────────────────*/
 .embedFull__623de,
 [class*="embedFull"] {
   position: relative;
@@ -652,9 +593,9 @@ li[class*="selected"] svg {
   z-index: 2;
 }
 
-/* ═══════════════════════════════════
-   ◆  USER PROFILES
-   ═══════════════════════════════════ */
+/*──────────────────────────────────────
+    USER PROFILES
+──────────────────────────────────────*/
 [class*="userProfileOuter"],
 [class*="userProfileInner"],
 [class*="biteSizeOuter"],
@@ -694,9 +635,9 @@ li[class*="selected"] svg {
   border-radius: var(--bp-radius-sm);
 }
 
-/* ═══════════════════════════════════
-   ◆  EDITED TIMESTAMP
-   ═══════════════════════════════════ */
+/*──────────────────────────────────────
+    EDITED TIMESTAMP
+──────────────────────────────────────*/
 .messageContent_c19a55 > .timestamp_c19a55 > span > time > .edited_c19a55 {
   font-size: 0;
 }
