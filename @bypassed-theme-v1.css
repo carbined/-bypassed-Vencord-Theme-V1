@@ -1,0 +1,715 @@
+/**
+ * @bypassed theme v1
+ * no imports · perf-first · opaque glass
+ *
+ * tweak :root · comment out a ◆ section to disable it
+ */
+
+/* ═══════════════════════════════════
+   ◆  CONFIG
+   ═══════════════════════════════════ */
+:root {
+  /* accent — selected channel # + selected command row */
+  --bp-accent: #b80000;
+
+  /* solid fills (no alpha — menus stay readable) */
+  --bp-menu: #141416;
+  --bp-raised: #1a1b1f;
+  --bp-border: rgba(255, 255, 255, 0.12);
+  --bp-gloss:
+    inset 0 1px 0 rgba(255, 255, 255, 0.14),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.35),
+    0 8px 24px rgba(0, 0, 0, 0.45);
+  --bp-glass-shine: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.11) 0%,
+    rgba(255, 255, 255, 0.03) 32%,
+    transparent 58%
+  );
+
+  /* settings glass polish (layered ON TOP of translucent opacity) */
+  --bp-settings-shine: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0.03) 28%,
+    transparent 55%
+  );
+  --bp-settings-outer-glow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    0 18px 48px rgba(0, 0, 0, 0.55),
+    0 0 64px rgba(255, 255, 255, 0.06);
+
+  /* hover wash on icon buttons */
+  --bp-icon-hover: rgba(255, 255, 255, 0.08);
+
+  /* shape */
+  --bp-radius: 10px;
+  --bp-radius-sm: 15px;
+
+  /*── DM NAV ICONS (Friends / Nitro / Shop row) ──*/
+  --bp-dm-icon-pad: 0;
+  /* ↑ padding around each icon glyph */
+
+  --bp-dm-icon-gap: 4px;
+  /* ↑ horizontal space between icon buttons */
+
+  --bp-dm-badge-scale: 0.8;
+  /* ↑ size of notification / NEW badges on those icons (1 = full size) */
+
+  /* embeds */
+  --bp-embed-wash: 0.15;        /* accent tint strength 0–1 */
+
+  /* spotify — art behind controls */
+  --bp-spotify-art: 0.45;       /* album art strength */
+  --bp-spotify-veil-top: 0.25;  /* dark tint at top (clearer) */
+  --bp-spotify-veil-bot: 0.72;  /* dark tint at bottom (stronger) */
+  --bp-spotify-veil-hover: 0.15;/* overall veil when hovering (lower = more art) */
+}
+
+/* shared glass recipe (spotify / misc — settings & commands use their own blocks) */
+.bp-glass {
+  background-color: var(--bp-menu) !important;
+  background-image: var(--bp-glass-shine) !important;
+  border: 1px solid var(--bp-border);
+  box-shadow: var(--bp-gloss);
+}
+
+/* ═══════════════════════════════════
+   ◆  SPOTIFY  (compact layout + album art behind controls)
+   ═══════════════════════════════════ */
+
+/*── compact layout (from Compact Spotify Player, no import) ──*/
+:root {
+  --grabber-height: 0.4;
+}
+
+#vc-spotify-info-wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: start;
+  height: 4.2em;
+  gap: 0.5em;
+}
+
+#vc-spotify-album-title {
+  display: none !important;
+}
+
+#vc-spotify-album-image {
+  height: 100%;
+}
+
+#vc-spotify-progress-bar {
+  position: relative;
+  color: var(--text-default);
+  width: calc(100% - 78px);
+  margin: -2.2em 0 0 77px;
+  margin-bottom: 5px;
+}
+
+#vc-spotify-album-expanded-wrapper ~ #vc-spotify-progress-bar {
+  width: 100% !important;
+  margin: 6px 0 -12px 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px;
+  height: 15px !important;
+}
+
+#vc-spotify-album-expanded-wrapper ~ #vc-spotify-progress-bar .vc-spotify-progress-time {
+  position: static !important;
+  margin: 0 !important;
+  font-size: 12px;
+  font-family: var(--font-code);
+}
+
+#vc-spotify-player [class*="grabber"] {
+  height: calc(var(--grabber-size) * var(--grabber-height)) !important;
+  border-radius: 5px !important;
+  margin-top: calc((var(--grabber-size) * var(--grabber-height)) / -2 + var(--bar-offset) / 2) !important;
+}
+
+.vc-spotify-progress-time {
+  margin-top: 7px !important;
+  color: white;
+}
+
+.vc-spotify-button {
+  margin: 0 auto;
+  margin-top: 2px;
+}
+
+/*── album art behind controls ──*/
+#vc-spotify-player {
+  --bp-sp-top: var(--bp-spotify-veil-top);
+  --bp-sp-bot: var(--bp-spotify-veil-bot);
+  position: relative;
+  overflow: hidden;
+  border: 0px solid var(--bp-border);
+  border-radius: var(--bp-radius-sm);
+  background-color: var(--bp-menu) !important;
+  box-shadow: var(--bp-gloss);
+}
+
+#vc-spotify-player:hover {
+  --bp-sp-top: 0.08;
+  --bp-sp-bot: var(--bp-spotify-veil-hover);
+}
+
+#vc-spotify-player::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--vc-spotify-track-image, none) center / cover no-repeat;
+  opacity: var(--bp-spotify-art);
+  z-index: 0;
+  pointer-events: none;
+}
+
+#vc-spotify-player::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(30, 31, 34, var(--bp-sp-top)) 0%,
+    rgba(30, 31, 34, var(--bp-sp-bot)) 100%
+  );
+  z-index: 0;
+  pointer-events: none;
+  transition: background 0.2s ease;
+}
+
+#vc-spotify-player > * {
+  position: relative;
+  z-index: 1;
+}
+
+#vc-spotify-player [class*="coverArt"],
+.coverArt_c78e62 {
+  width: 28px !important;
+  height: 28px !important;
+  border-radius: 4px !important;
+}
+
+#vc-spotify-album-image {
+  border-radius: 4px !important;
+}
+
+#vc-spotify-player [class*="timelineBar"],
+.timelineBar_c78e62 {
+  height: 3px !important;
+  margin: 4px 0 2px !important;
+}
+
+#vc-spotify-player [class*="controls"] button,
+.controls_c78e62 button,
+.vc-spotify-button {
+  width: 22px !important;
+  height: 22px !important;
+  min-width: 22px !important;
+  min-height: 22px !important;
+  padding: 0 !important;
+}
+
+.panels_c48ade [class*="detailsWrapper"],
+.panels_c48ade [class*="metadata"],
+#vc-spotify-player [class*="detailsWrapper"],
+#vc-spotify-player [class*="metadata"] {
+  gap: 2px !important;
+}
+
+.activityPanel_c48ade,
+.container_c78e62 {
+  border-top: 1px solid var(--bp-border);
+  background: transparent !important;
+}
+
+.container__37e49,
+.wrapper_f7ecac,
+.panel_c48ade {
+  background: transparent !important;
+}
+
+/*══════════════════════════════════════
+  COMPACT DM NAV ICONS
+  Faithful rewrite of CompactButtons — no broad :has()/wrapper traps
+══════════════════════════════════════*/
+[data-list-id^="private-channels-uid_"] {
+  scrollbar-width: none;
+}
+
+[data-list-id^="private-channels-uid_"] > [class*="content"] {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  justify-content: space-evenly;
+}
+
+/* search, headers, real DMs stay full width */
+[data-list-id^="private-channels-uid_"] > [class*="content"] > div:not([class]):first-child,
+[data-list-id^="private-channels-uid_"] > [class*="content"] > div[role="button"],
+[data-list-id^="private-channels-uid_"] > [class*="content"] > [class*="privateChannelsHeader"],
+[data-list-id^="private-channels-uid_"] > [class*="content"] > [class*="channel"][class*="dm"] {
+  width: 100%;
+  min-width: 0;
+}
+
+/* reset margins on nav entries */
+[data-list-id^="private-channels-uid_"] > [class*="content"] > [class*="friendsButton"],
+[data-list-id^="private-channels-uid_"] > [class*="content"] > [class*="channel"]:not([class*="dm"]) {
+  margin: 0;
+}
+
+/* iconify non-DM channel rows (Friends / Nitro / Shop / Requests / Quests) */
+[data-list-id^="private-channels-uid_"] [class*="channel"]:not([class*="dm"]) {
+  margin: 0 var(--bp-dm-icon-gap) !important;
+}
+
+[data-list-id^="private-channels-uid_"] [class*="channel"]:not([class*="dm"]) > [class*="linkButton"] > [class*="link"],
+[data-list-id^="private-channels-uid_"] [class*="friendsButton"] [class*="link"] {
+  padding: var(--bp-dm-icon-pad) !important;
+  justify-content: center !important;
+  border-radius: 8px !important;
+  transition: background-color 0.12s ease, box-shadow 0.12s ease;
+}
+
+[data-list-id^="private-channels-uid_"] [class*="channel"]:not([class*="dm"]) > [class*="linkButton"] > [class*="link"]:hover,
+[data-list-id^="private-channels-uid_"] [class*="friendsButton"] [class*="link"]:hover {
+  background-color: var(--bp-icon-hover) !important;
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.1);
+}
+
+[data-list-id^="private-channels-uid_"] [class*="channel"]:not([class*="dm"]) [class*="avatarWithText"],
+[data-list-id^="private-channels-uid_"] [class*="friendsButton"] [class*="avatarWithText"] {
+  padding: 0 !important;
+}
+
+[data-list-id^="private-channels-uid_"] [class*="channel"]:not([class*="dm"]) [class*="avatar"],
+[data-list-id^="private-channels-uid_"] [class*="friendsButton"] [class*="avatar"] {
+  margin: 0 !important;
+}
+
+[data-list-id^="private-channels-uid_"] [class*="channel"]:not([class*="dm"]) [class*="avatarWithText"] > [class*="content"],
+[data-list-id^="private-channels-uid_"] [class*="friendsButton"] [class*="avatarWithText"] > [class*="content"] {
+  display: none !important;
+}
+
+/* badges */
+[data-list-id^="private-channels-uid_"] [class*="channel"]:not([class*="dm"]) [class*="numberBadge"],
+[data-list-id^="private-channels-uid_"] [class*="friendsButton"] [class*="numberBadge"] {
+  position: absolute;
+  left: 17.5px;
+  bottom: 0;
+  transform: scale(var(--bp-dm-badge-scale));
+}
+
+[data-list-id^="private-channels-uid_"] [class*="channel"]:not([class*="dm"]) [class*="premiumBadge"],
+[data-list-id^="private-channels-uid_"] [class*="channel"]:not([class*="dm"]) [class*="newBadge"] {
+  position: absolute;
+  bottom: 0;
+  transform: scale(var(--bp-dm-badge-scale));
+}
+
+[data-list-id^="private-channels-uid_"] [class*="premiumBadge"] {
+  background-color: var(--badge-notification-background, #ed4245);
+}
+
+[data-list-id^="private-channels-uid_"] [class*="premiumBadge"] [class*="BadgeClockIcon"] {
+  display: none;
+}
+
+[data-list-id^="private-channels-uid_"] [class*="premiumBadge"] [class*="eyebrow"],
+[data-list-id^="private-channels-uid_"] [class*="newBadge"] [class*="eyebrow"] {
+  color: #fff !important;
+  background-color: var(--badge-notification-background, #ed4245);
+}
+
+/*══════════════════════════════════════
+  UI BUTTONS (slightly tighter)
+══════════════════════════════════════*/
+.button_dd4f85:not(.lookLink_dd4f85),
+.button__201d5:not(.lookLink__201d5) {
+  min-height: 28px;
+  height: 28px;
+  padding: 0 12px;
+  border-radius: var(--bp-radius-sm);
+}
+
+.button_dd4f85 .contents_dd4f85,
+.button__201d5 .contents__201d5 {
+  font-size: 13px;
+}
+
+/*──────────────────────────────────────
+    TRANSLUCENT SETTINGS MENU
+──────────────────────────────────────*/
+
+/* settings menu scroll shadow */
+.fixedContent__409aa:after {
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+/* settings menu main BG */
+.content_e9e3ed {
+    background: #00000046;
+}
+
+.contentHeader_e9e3ed {
+    background: transparent !important;
+}
+
+/* Security Keys BG */
+.credentialItem__6c75d {
+    background: none;
+}
+
+.credentialItem__6c75d:is(:first-child) {
+    border: 0px;
+}
+
+.credentialList__6c75d {
+    background: #0c0c0c83;
+    border-radius: 8px;
+    border: 1px solid var(--border-subtle);
+}
+
+/* krisp bg */
+.card__73069:not(.outline__73069) {
+    background: none;
+}
+
+/* keybinding bgs */
+.defaultKeybindGroup__740f2 {
+    background: #2b2a2a63;
+}
+
+/* vencord quick actions */
+.vc-card-base {
+    background: none;
+}
+
+.vc-settings-quickActions-pill {
+    background: #55555571;
+}
+
+.vc-settings-quickActions-pill:hover {
+    background: #7e7e7e71;
+}
+
+/* Plugins */
+.vc-addon-card {
+    background: none;
+}
+
+/* server boosts */
+.appliedBoostContainer_ceb06a {
+    background: none;
+    border: 1px solid var(--border-subtle);
+}
+
+.guildContainer__5dba5 {
+    background: #3d3d3d52;
+}
+
+.boostContainer_ceb06a {
+    background: #141414a1;
+}
+
+/* server boost faq */
+.wrapper__5b98e {
+    background: #3d3d3d52;
+}
+
+/* Share nitro */
+.expandedProgressBarContainerSettingsPage_a61c56 {
+    background: none;
+    backdrop-filter: none;
+}
+
+/* my account */
+.accountProfileCard__1fed1 {
+    background: #03030333;
+    border: 1px solid var(--border-subtle);
+}
+
+.background__1fed1 {
+    background: #1818183b;
+    border: 1px solid var(--border-subtle);
+}
+
+.fieldList__1fed1 {
+    background: none;
+}
+
+/* appearance */
+.cardPrimary__73069,
+.cardPrimary__73069.editable__73069 {
+    background: #03030356;
+}
+
+/* view reactions popup / settings menu */
+.container__8a031 {
+    background: #14141494;
+    backdrop-filter: blur(10px);
+}
+
+/*──────────────────────────────────────
+    SETTINGS GLASS POLISH  (slight — keeps translucent opacity)
+──────────────────────────────────────*/
+
+/* outer shell — soft glow only, no border */
+[class*="standardSidebarView"] {
+  border: none !important;
+  border-radius: 12px !important;
+  overflow: hidden;
+  box-shadow: var(--bp-settings-outer-glow) !important;
+}
+
+/* keep translucent opacity — only top→bottom fade */
+.content_e9e3ed {
+  background-image: var(--bp-settings-shine);
+  border: none;
+  box-shadow: none;
+}
+
+.contentHeader_e9e3ed {
+  background-image: var(--bp-settings-shine);
+  border: none;
+}
+
+/* translucent cards — fade only, no borders */
+.credentialList__6c75d,
+.defaultKeybindGroup__740f2,
+.guildContainer__5dba5,
+.boostContainer_ceb06a,
+.wrapper__5b98e,
+.accountProfileCard__1fed1,
+.background__1fed1,
+.cardPrimary__73069,
+.cardPrimary__73069.editable__73069,
+.container__8a031,
+.vc-settings-quickActions-pill {
+  background-image: var(--bp-settings-shine);
+  border: none;
+  box-shadow: none;
+}
+
+.vc-settings-quickActions-pill:hover {
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.1);
+}
+
+/* sidebar items — slight grey hover */
+[class*="standardSidebarView"] [class*="item"]:hover,
+[class*="sidebarRegion"] [class*="item"]:hover {
+  background-color: var(--bp-icon-hover) !important;
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+}
+
+/*──────────────────────────────────────
+    CLEANER COMMAND MENU
+──────────────────────────────────────*/
+
+/* main container */
+[class*="autocomplete"],
+[class*="contentWrapper"] [role="listbox"] {
+    background: rgba(20, 20, 24, 0.72) !important;
+    backdrop-filter: blur(14px) saturate(140%) !important;
+    -webkit-backdrop-filter: blur(14px) saturate(140%) !important;
+
+    border: 1px solid rgba(255, 255, 255, 0.06) !important;
+    border-radius: 12px !important;
+
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45) !important;
+}
+
+/* options */
+[class*="autocomplete"] [role="option"],
+[class*="contentWrapper"] [role="option"] {
+    border-radius: 8px !important;
+    margin: 2px 4px !important;
+    padding: 6px 8px !important;
+
+    background: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+
+    transition: background 0.15s ease !important;
+}
+
+/* remove hover flash */
+[class*="autocomplete"] [role="option"]:hover,
+[class*="autocomplete"] [role="option"]:hover * {
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+/* selected */
+[class*="autocomplete"] [aria-selected="true"] {
+    background: rgba(88, 101, 242, 0.18) !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+/* title */
+[class*="autocomplete"] [class*="title"] {
+    font-size: 15px !important;
+    font-weight: 500 !important;
+}
+
+/* description */
+[class*="autocomplete"] [class*="description"] {
+    font-size: 12px !important;
+    opacity: 0.65 !important;
+
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+/* kill nested wrappers */
+[class*="autocomplete"] [class*="description"] *,
+[class*="autocomplete"] [class*="content"] *,
+[class*="autocomplete"] [role="option"] div {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+/* icons */
+[class*="autocomplete"] svg {
+    opacity: 0.9 !important;
+}
+
+/* divider */
+[class*="autocomplete"] [class*="divider"] {
+    margin: 4px 0 !important;
+    opacity: 0.15 !important;
+}
+
+/* ═══════════════════════════════════
+   ◆  CHANNEL ACCENT  (--bp-accent)
+   ═══════════════════════════════════ */
+#channels [class*="selected"] [class*="name"],
+#channels [class*="selected"] [class*="icon"],
+#channels [class*="modeSelected"] [class*="name"],
+#channels [class*="modeSelected"] [class*="icon"],
+[class*="containerDefault"][class*="selected"] [class*="name"],
+[class*="containerDefault"][class*="selected"] [class*="icon"],
+[class*="modeSelected"] [class*="overflow"],
+li[class*="selected"] [class*="name"],
+li[class*="selected"] [class*="icon"] {
+  color: var(--bp-accent) !important;
+}
+
+#channels [class*="selected"] svg,
+#channels [class*="modeSelected"] svg,
+[class*="containerDefault"][class*="selected"] svg,
+li[class*="selected"] svg {
+  color: var(--bp-accent) !important;
+  fill: var(--bp-accent) !important;
+}
+
+/* ═══════════════════════════════════
+   ◆  EMBEDS
+   ═══════════════════════════════════ */
+.embedFull__623de,
+[class*="embedFull"] {
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px !important;
+  background-color: #1e1f22 !important;
+  background-image: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.08) 0%,
+    transparent 45%
+  ) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.07),
+    0 6px 18px rgba(0, 0, 0, 0.28);
+}
+
+.embedFull__623de::before,
+[class*="embedFull"]::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: var(--__accent-color, transparent);
+  opacity: var(--bp-embed-wash);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.embedFull__623de .gridContainer__623de,
+[class*="embedFull"] [class*="gridContainer"],
+.gridContainer__623de {
+  position: relative;
+  z-index: 2;
+}
+
+/* ═══════════════════════════════════
+   ◆  USER PROFILES
+   ═══════════════════════════════════ */
+[class*="userProfileOuter"],
+[class*="userProfileInner"],
+[class*="biteSizeOuter"],
+[class*="fullSizeOuter"],
+[class*="overlayBackground"],
+[class*="profileBody"],
+[class*="tabBarContainer"] {
+  background-color: var(--bp-menu) !important;
+  background-image: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.06) 0%,
+    transparent 36%
+  ) !important;
+  border-color: var(--bp-border) !important;
+  box-shadow: var(--bp-gloss);
+}
+
+[class*="userProfileOuter"],
+[class*="biteSizeOuter"],
+[class*="fullSizeOuter"] {
+  border: 1px solid var(--bp-border) !important;
+  border-radius: var(--bp-radius) !important;
+  overflow: hidden;
+}
+
+[class*="userProfileOuter"] [class*="section"],
+[class*="userProfileInner"] [class*="section"],
+[class*="profilePanel"] [class*="section"],
+[class*="markup"] [class*="panel"],
+[class*="connectedAccount"],
+[class*="rolePill"],
+[class*="profileButtons"] button,
+[class*="biography"] {
+  background-color: var(--bp-raised) !important;
+  border: 1px solid var(--bp-border) !important;
+  box-shadow: var(--bp-gloss);
+  border-radius: var(--bp-radius-sm);
+}
+
+/* ═══════════════════════════════════
+   ◆  EDITED TIMESTAMP
+   ═══════════════════════════════════ */
+.messageContent_c19a55 > .timestamp_c19a55 > span > time > .edited_c19a55 {
+  font-size: 0;
+}
+
+.messageContent_c19a55 > .timestamp_c19a55 > .hiddenVisually_b18fe2 {
+  clip: unset;
+  clip-path: unset;
+  width: max-content;
+  height: unset;
+  margin-top: 1px;
+  position: static;
+}
+
+.messageContent_c19a55 > .timestamp_c19a55 > .hiddenVisually_b18fe2::before {
+  content: "✎ Edited: ";
+}
